@@ -1,0 +1,8 @@
+{
+  "name": "vue-iban",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "vue-stripe-better-elements": "Cl3MM/vue-stripe-better-elements"
+  }
+}
