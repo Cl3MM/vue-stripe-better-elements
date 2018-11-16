@@ -1,10 +1,14 @@
 <template>
   <div id="app">
     <h2 class="title is-h2">Without Scoped Slots</h2>
-    <input class="input" type="text" value="DE89 3704 0044 0532 0130 00">
-    <no-slots />
+    <input
+      class="input"
+      type="text"
+      value="DE89 3704 0044 0532 0130 00"
+    >
+    <no-slots :stripe-key="stripeKey" />
     <h2 class="title is-h2">With Scoped Slots</h2>
-    <scoped-slot />
+    <scoped-slot :stripe-key="stripeKey" />
   </div>
 </template>
 
@@ -14,11 +18,12 @@ import NoSlots from './NoSlots'
 import ScopedSlot from './ScopedSlot'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     NoSlots,
     ScopedSlot
-  }
+  },
+  data: () => ({stripeKey: 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx'})
 }
 </script>
 
