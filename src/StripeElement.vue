@@ -8,27 +8,11 @@
 </template>
 
 <script>
+import props from './props'
 import { create, destroy } from './stripeElements'
 
 export default {
-  props: {
-    type: {
-      type: String,
-      required: true,
-      validator: function (value) {
-        return ['card', 'iban', 'postalCode', 'cardNumber', 'cardExpiry', 'cardCvc'].map(s => s.toLowerCase()).indexOf(value.toLowerCase()) > -1
-      }
-    },
-    stripe: {
-      type: String,
-      required: true
-    },
-    options: {
-      type: Object,
-      required: false,
-      default: () => ({})
-    }
-  },
+  props,
 
   beforeMount () {
     this.elements = create(this.type, this.stripe, this.options)
