@@ -1,0 +1,46 @@
+{
+  "name": "vue-stripe-better-elements",
+  "version": "0.0.1",
+  "description": "Stripe Elements (Card, Iban) components for Vue",
+  "main": "./dist/index.js",
+  "scripts": {
+    "lint": "eslint --ext .js,.vue --fix",
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cl3MM/vue-stripe-better-elements.git"
+  },
+  "keywords": [
+    "vue",
+    "stripe",
+    "elements",
+    "payment"
+  ],
+  "author": {
+    "name": "Cl3MM",
+    "url": "https://github.com/Cl3MM"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cl3MM/vue-stripe-better-elements/issues"
+  },
+  "homepage": "https://github.com/Cl3MM/vue-stripe-better-elements#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^5.0.0-beta.4",
+    "vue-loader": "^10.3.0",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^2.6.1"
+  }
+}
