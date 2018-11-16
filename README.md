@@ -23,10 +23,10 @@ added [scoped slots](https://vuejs.org/v2/guide/components-slots.html#Scoped-Slo
 Install the package:
 
 ```
-// if your one of the zuck fanboyz:
-yarn add Cl3MM/vue-stripe-better-elements
+// if your one of the cool kidz:
+yarn add vue-stripe-better-elements
 // or if you're old school:
-npm i Cl3MM/vue-stripe-better-elements
+npm i vue-stripe-better-elements
 ```
 
 Make sure you include the [Stripe.js library](https://stripe.com/docs/stripe-js)
@@ -46,22 +46,22 @@ The library exports several properties, but you will mainly use:
   the [stripe Element](https://stripe.com/docs/stripe-js/reference#element-types)
   matching the `type` props:
 
-      ```js
-      import { StripeElement } from
-      <stripe-element type="card" />
-      <stripe-element type="iban" />
-      ```
+  ```js
+  import { StripeElement } from
+  <stripe-element type="card" />
+  <stripe-element type="iban" />
+  ```
 
 - A `Stripe` object with the following structure:
 
-      ```js
-      {
-        components: [ /* list of instanciated components*/ ],
-        get: function (componentType, stripeKey) {
-          // return the component matching type and key
-        }
-      }
-      ```
+  ```js
+  {
+    components: [ /* list of instanciated components*/ ],
+    get: function (componentType, stripeKey) {
+      // return the component matching type and key
+    }
+  }
+  ```
 
 Each component looks like this:
 
