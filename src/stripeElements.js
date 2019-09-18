@@ -52,22 +52,23 @@ export function create({
   elementType,
   stripeKey,
   stripeOptions = {},
-  options = {}
-) {
-  let component = init(elementType, stripeKey)
-  const elements = component.instance.elements(options)
+  elsOptions = {},
+  elOptions = {}
+}) {
+  let component = init(elementType, stripeKey, stripeOptions);
+  const elements = component.instance.elements(elsOptions);
 
-  options.style = Object.assign(baseStyle, options.style || {})
+  elOptions.style = Object.assign(baseStyle, elOptions.style || {});
 
   component = Object.assign({}, component, {
     elements,
-    element: elements.create(elementType, stripeOptions),
-    createToken: options =>
-      component.instance.createToken(component.element, options),
-    createSource: options =>
-      component.instance.createSource(component.element, options),
-    retrieveSource: options => component.instance.retrieveSource(options)
-  })
+    element: elements.create(elementType, elOptions),
+    createToken: tokenData =>
+      component.instance.createToken(component.element, tokenData),
+    createSource: sourceData =>
+      component.instance.createSource(component.element, sourceData),
+    retrieveSource: () => component.instance.retrieveSource()
+  });
 
   Stripe.components.push(component)
 
