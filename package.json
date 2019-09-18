@@ -1,6 +1,6 @@
 {
   "name": "vue-stripe-better-elements",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Stripe Elements (Card, Iban) components for Vue",
   "main": "./dist/index.js",
   "scripts": {
