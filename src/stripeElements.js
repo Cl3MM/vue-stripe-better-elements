@@ -2,9 +2,9 @@
 export const Stripe = {
   components: [],
   get(type, key) {
-    return this.components.find(i => i.type === type && i.key === key)
+    return this.components.find(i => i.type === type && i.key === key);
   }
-}
+};
 
 export const baseStyle = {
   base: {
@@ -20,7 +20,7 @@ export const baseStyle = {
     color: "#fa755a",
     iconColor: "#fa755a"
   }
-}
+};
 
 function init(elementType, key, stripeOptions = {}) {
   const component = Stripe.get(elementType, key) || {
@@ -29,23 +29,23 @@ function init(elementType, key, stripeOptions = {}) {
     key: key,
     elements: null,
     element: null
-  }
+  };
 
   if (typeof key === "object" && typeof key.elements === "function") {
-    component.instance = key
+    component.instance = key;
   }
 
   if (window.Stripe === undefined && component.instance === null) {
-    console.error("Stripe V3 library not loaded!")
+    console.error("Stripe V3 library not loaded!");
   } else if (component.instance === null) {
     component.instance = window.Stripe(key, stripeOptions);
   }
 
   if (!component.instance.elements) {
-    console.error("Stripe V3 library not loaded!")
+    console.error("Stripe V3 library not loaded!");
   }
 
-  return component
+  return component;
 }
 
 export function create({
@@ -70,21 +70,23 @@ export function create({
     retrieveSource: () => component.instance.retrieveSource()
   });
 
-  Stripe.components.push(component)
+  Stripe.components.push(component);
 
-  return component
+  return component;
 }
 
 export function destroy(type, key) {
-  const idx = Stripe.components.findIndex(i => i.type === type && i.key === key)
+  const idx = Stripe.components.findIndex(
+    i => i.type === type && i.key === key
+  );
   if (idx > -1) {
     Stripe.components = [
       ...Stripe.components.slice(0, idx),
       ...Stripe.components.slice(idx + 1)
-    ]
+    ];
   }
 }
 
 export function destroyAll() {
-  Stripe.components = {}
+  Stripe.components = {};
 }
