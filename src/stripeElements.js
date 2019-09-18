@@ -52,7 +52,7 @@ function init(elementType, key) {
 export function create(
   elementType,
   stripeKey,
-  stripeOtions = {},
+  stripeOptions = {},
   options = {}
 ) {
   let component = init(elementType, stripeKey)
@@ -62,7 +62,7 @@ export function create(
 
   component = Object.assign({}, component, {
     elements,
-    element: elements.create(elementType, stripeOtions),
+    element: elements.create(elementType, stripeOptions),
     createToken: options =>
       component.instance.createToken(component.element, options),
     createSource: options =>
