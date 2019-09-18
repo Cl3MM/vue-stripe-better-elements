@@ -3,8 +3,8 @@
     <!-- stripe Iban element -->
     <stripe-element
       type="iban"
-      :options="ibanOptions"
       :stripe="stripeKey"
+      :elOptions="ibanOptions"
       @change="ibcompleted = $event.complete"
     />
 
@@ -12,34 +12,31 @@
     <stripe-element
       type="card"
       :stripe="stripeKey"
+      :elsOptions="elsOptions"
       @change="cdcompleted = $event.complete"
     />
-
-    <button
-      class="button is-info"
-      :disabled="!cdcompleted"
-      @click="payByCard"
-    >Pay by Card</button>
-    <button
-      class="button is-info"
-      :disabled="!ibcompleted"
-      @click="payByIban"
-    >Pay by IBAN</button>
+    <div class="buttons has-addons is-centered">
+      <button class="button is-info" :disabled="!cdcompleted" @click="payByCard">Pay by Card</button>
+      <button class="button is-info" :disabled="!ibcompleted" @click="payByIban">Pay by IBAN</button>
+    </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable no-console */
-import { StripeElement, Stripe } from "vue-stripe-better-elements"
+import { StripeElement, Stripe } from "../../../src/index";
 
 export default {
-  name: 'NoSlots',
+  name: "NoSlots",
   components: {
     StripeElement
   },
   // eslint-disable-next-line vue/require-prop-types
-  props: ['stripeKey'],
+  props: ["stripeKey"],
   data: () => ({
+    elsOptions: {
+      locale: "de"
+    },
     ibanOptions: {
       supportedCountries: [`SEPA`],
       placeholderCountry: `DE`
@@ -51,17 +48,25 @@ export default {
     payByIban() {
       Stripe.get("iban", this.stripeKey)
         .createSource({
-          type: "sepa_debit"
+          type: "sepa_debit",
+          currency: "eur",
+          owner: {
+            name: "foobar",
+            email: "foo@bar.com"
+          },
+          mandate: {
+            notification_method: "email"
+          }
         })
         .then(console.log)
-        .catch(console.error)
+        .catch(console.error);
     },
     payByCard() {
       Stripe.get("card", this.stripeKey)
         .createToken()
         .then(console.log)
-        .catch(console.error)
+        .catch(console.error);
     }
   }
-}
+};
 </script>
