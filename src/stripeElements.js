@@ -22,7 +22,7 @@ export const baseStyle = {
   }
 }
 
-function init(elementType, key) {
+function init(elementType, key, stripeOptions = {}) {
   const component = Stripe.get(elementType, key) || {
     instance: null,
     type: elementType,
