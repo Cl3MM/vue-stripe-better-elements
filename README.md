@@ -1,5 +1,12 @@
 # Vue-stripe-better-elements
 
+## Breaking changes in v2.0.0 (18/09/2019)
+
+Version 2.0.0, released on September 18 2019, introduced some breaking changes:
+
+- A new prop `elsOptions` has been introduced to enable passing options to the underlying `stripe.elements()` [method](https://stripe.com/docs/stripe-js/reference#stripe-elements)
+- The `options` prop has been renamed to `elOptions` to preserve naming consistency
+
 ## What?
 
 [vue-stripe-elements](https://github.com/fromAtoB/vue-stripe-elements), but different.
@@ -79,15 +86,38 @@ Each component looks like this:
 
 ### Component props:
 
+#### Breaking changes in v2.0.0 (18/09/2019):
+
 - **type (required):**
 
-  A string containg a [stripe Element type](https://stripe.com/docs/stripe-js/reference#element-types).
+  A string containing a [stripe Element type](https://stripe.com/docs/stripe-js/reference#element-types).
   Currently accepts one of the following: `card`, `iban`, `cardNumber`, `cardExpiry`,
   `cardCvc`
 
 - **stripe**:
 
   Your stripe public key (`pk_test_xxxxxxxxxxxxxxxxxxxxxxxx`) or a stripe instance.
+
+- **elOptions**
+
+  A [stripe Element option object](https://stripe.com/docs/stripe-js/reference#element-options)
+  used to create the current element.
+  For example, the Iban element needs a `{supportedCountries: ['SEPA']}` option object.
+  Practically, it will be passed as the `option` parameter in the call to `elements.create('iban', options)`
+  See [the Stripe documentation](https://stripe.com/docs/stripe-js/reference#elements-create) for further information.
+
+- **elsOptions**
+
+  An object that will be used to create an instance of `elements`, which manages a group of Elements.
+  You can use this to change the locale of your component (ie: set it to `{ locale: 'de' }` to switch the current component to German.
+  More information on [the Stripe documentation](https://stripe.com/docs/stripe-js/reference#stripe-elements)
+
+- **stripeOptions**
+
+  A [object](https://stripe.com/docs/stripe-js/reference#stripe-function) to create an instance of the Stripe object.
+  **Attention :** Please note that this option will overwrite any custom `elsOptions` defined. ie: if you set your locales via this option, you won't be able to set your locale per component via ``elsOptions.
+
+#### Documentation for v1.0.x [deprecated]
 
 - **options**
 
@@ -97,7 +127,7 @@ Each component looks like this:
 
 - **stripeOptions**
 
-  A [stripe Elements option](https://stripe.com/docs/stripe-js/reference#stripe-elements)
+  A [stripe Elements option](https://stripe.com/docs/stripe-js/reference#stripe-function)
 
 ### STFU & Show me the code
 
@@ -126,6 +156,7 @@ There are two ways to use the library:
     <stripe-element
       type="card"
       :stripe="stripeKey"
+      :elsOptions="elsOptions"
       @change="cdcompleted = $event.complete"
     >
       <template slot-scope="slotProps">
@@ -138,7 +169,7 @@ There are two ways to use the library:
 </template>
 
 <script>
-  import { StripeElement } from "vue-stripe-better-elements"
+  import { StripeElement } from "vue-stripe-better-elements";
 
   export default {
     components: {
@@ -146,6 +177,9 @@ There are two ways to use the library:
     },
     data: () => ({
       stripeKey: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxx",
+      elsOptions: {
+        locale: "fr"
+      },
       ibanOptions: {
         supportedCountries: [`SEPA`],
         placeholderCountry: `DE`
@@ -156,19 +190,27 @@ There are two ways to use the library:
     methods: {
       payByIban({ createSource }) {
         createSource({
-          type: "sepa_debit"
+          type: "sepa_debit",
+          currency: "eur",
+          owner: {
+            name: "foobar",
+            email: "foo@bar.com"
+          },
+          mandate: {
+            notification_method: "email"
+          }
         })
           .then(console.log)
-          .catch(console.error)
+          .catch(console.error);
       },
       payByCard(slotProps) {
         slotProps.elements
           .createToken()
           .then(console.log)
-          .catch(console.error)
+          .catch(console.error);
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -183,34 +225,49 @@ is for you:
     <!-- stripe Iban element -->
     <stripe-element
       type="iban"
-      :options="ibanOptions"
       :stripe="stripeKey"
+      :elOptions="ibanOptions"
       @change="ibcompleted = $event.complete"
-    >
-    </stripe-element>
+    />
 
     <!-- stripe Card element -->
     <stripe-element
       type="card"
       :stripe="stripeKey"
+      :elsOptions="elsOptions"
       @change="cdcompleted = $event.complete"
-    >
-    </stripe-element>
-
-    <button :disabled="!cdcompleted" @click="payByCard">Pay by Card</button>
-    <button :disabled="!ibcompleted" @click="payByIban">Pay by IBAN</button>
+    />
+    <div class="buttons has-addons is-centered">
+      <button
+        class="button is-info"
+        :disabled="!cdcompleted"
+        @click="payByCard"
+      >
+        Pay by Card
+      </button>
+      <button
+        class="button is-info"
+        :disabled="!ibcompleted"
+        @click="payByIban"
+      >
+        Pay by IBAN
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
-  import { StripeElement, Stripe } from "vue-stripe-better-elements"
+  import { StripeElement, Stripe } from "vue-stripe-better-elements";
 
   export default {
     components: {
       StripeElement
     },
     data: () => ({
-      stripeKey: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxx",
+      // set the locale to german
+      elsOptions: {
+        locale: "de"
+      },
       ibanOptions: {
         supportedCountries: [`SEPA`],
         placeholderCountry: `DE`
@@ -222,19 +279,27 @@ is for you:
       payByIban() {
         Stripe.get("iban", this.stripeKey)
           .createSource({
-            type: "sepa_debit"
+            type: "sepa_debit",
+            currency: "eur",
+            owner: {
+              name: "foobar",
+              email: "foo@bar.com"
+            },
+            mandate: {
+              notification_method: "email"
+            }
           })
           .then(console.log)
-          .catch(console.error)
+          .catch(console.error);
       },
       payByCard() {
         Stripe.get("card", this.stripeKey)
           .createToken()
           .then(console.log)
-          .catch(console.error)
+          .catch(console.error);
       }
     }
-  }
+  };
 </script>
 ```
 
@@ -243,11 +308,11 @@ is for you:
 You will find an example in the `example` folder (how original).
 
 ```
-npm install -g @vue/cli-service-global
 git clone https://github.com/Cl3MM/vue-stripe-better-elements.git
 cd example
-yarn install
-vue serve
+yarn global add @vue/cli-service-global
+echo "VUE_APP_STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxxxxx" > .env
+yarn serve
 ```
 
 Then, point your browser to the URL displayed in your terminal.
