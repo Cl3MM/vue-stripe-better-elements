@@ -7,7 +7,7 @@ export default {
         ["card", "iban", "postalCode", "cardNumber", "cardExpiry", "cardCvc"]
           .map(s => s.toLowerCase())
           .indexOf(value.toLowerCase()) > -1
-      )
+      );
     }
   },
   stripe: {
@@ -18,7 +18,12 @@ export default {
     type: String,
     required: false
   },
-  options: {
+  elsOptions: {
+    type: Object,
+    required: false,
+    default: () => ({})
+  },
+  elOptions: {
     type: Object,
     required: false,
     default: () => ({})
@@ -28,4 +33,4 @@ export default {
     required: false,
     default: () => ({})
   }
-}
+};
