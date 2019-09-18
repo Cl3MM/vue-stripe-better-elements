@@ -48,7 +48,7 @@ function init(elementType, key, stripeOptions = {}) {
   return component
 }
 
-export function create(
+export function create({
   elementType,
   stripeKey,
   stripeOptions = {},
