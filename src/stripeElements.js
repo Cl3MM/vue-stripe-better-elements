@@ -38,7 +38,7 @@ function init(elementType, key, stripeOptions = {}) {
   if (window.Stripe === undefined && component.instance === null) {
     console.error("Stripe V3 library not loaded!")
   } else if (component.instance === null) {
-    component.instance = window.Stripe(key)
+    component.instance = window.Stripe(key, stripeOptions);
   }
 
   if (!component.instance.elements) {
