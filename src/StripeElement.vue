@@ -14,9 +14,14 @@ import { create, destroy } from './stripeElements'
 export default {
   props,
 
-  beforeMount () {
-    this.elements = create(this.type, this.stripe, this.options)
-    this.element = this.elements.element
+  beforeMount() {
+    this.elements = create({
+      elementType: this.type,
+      stripeKey: this.stripe,
+      stripeOptions: this.stripeOptions,
+      elsOptions: this.elsOptions,
+      elOptions: this.elOptions
+    });
 
     this.element.on('blur', () => this.$emit('blur'))
     this.element.on('focus', () => this.$emit('focus'))
