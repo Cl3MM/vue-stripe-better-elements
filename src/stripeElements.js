@@ -9,7 +9,6 @@ export const Stripe = {
 export const baseStyle = {
   base: {
     color: "#32325d",
-    lineHeight: "24px",
     fontFamily: "Roboto",
     fontSmoothing: "antialiased",
     fontSize: "16px",
