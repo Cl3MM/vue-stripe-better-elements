@@ -67,7 +67,10 @@ export function create({
       component.instance.createToken(component.element, tokenData),
     createSource: sourceData =>
       component.instance.createSource(component.element, sourceData),
-    retrieveSource: () => component.instance.retrieveSource()
+    retrieveSource: () => component.instance.retrieveSource(),
+    confirmCardPayment: (clientSecret, data) => component.instance.confirmCardPayment(clientSecret, data),
+    confirmSepaDebitPayment: (clientSecret, data) => 
+      component.instance.confirmSepaDebitPayment(clientSecret, data)
   });
 
   Stripe.components.push(component);
